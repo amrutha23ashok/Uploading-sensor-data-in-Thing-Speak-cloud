@@ -1,4 +1,6 @@
-# Uploading temperature sensor data in Thing Speak cloud
+## NAME : Ratheesh Kumar B R
+## REG NO : 212223110040
+# Ex - 03 Uploading temperature sensor data in Thing Speak cloud
 
 # AIM:
 To monitor the temperature sensor data in the Thing speak using an ESP32 controller.
@@ -69,12 +71,75 @@ Automatically act on your data and communicate using third-party services like T
 
 ![image](https://user-images.githubusercontent.com/71547910/235334056-3ba9579f-2f62-43b1-a714-8fde6cf9ef32.png)
 
-
 # PROGRAM:
+```c
+#include"ThingSpeak.h"
+#include <WiFi.h>
+#include "DHT.h"
+
+char ssid[]="NO FREE WIFI";
+char pass[]="0987654321";
+
+const int t=25;
+WiFiClient client;
+DHT dht(25, DHT11);
+
+unsigned long myChannelField = 2709725;
+const int ChannelField1 = 1 ; 
+const int ChannelField2 = 2 ;
+const char *myWriteAPIKey="UBMYF6M8VFLQ5MUS";
+
+void setup()
+{
+  Serial.begin(115200);
+  pinMode (t,OUTPUT);
+  WiFi.mode(WIFI_STA);
+  ThingSpeak.begin(client);
+  dht.begin();
+  delay(1000);
+}
+
+void loop()
+{
+  if(WiFi.status()!=WL_CONNECTED)
+  {
+    Serial.print("Attempting to connet to SSID: "); 
+    Serial.println(ssid);
+    while(WiFi.status() != WL_CONNECTED)
+    {
+      WiFi.begin(ssid, pass);
+      Serial.print(".");
+      delay(5000);
+    }
+    Serial.println("\nConnected");
+  }
+  float temperature = dht.readTemperature();
+  float humidity = dht.readHumidity();
+  delay(1000);
+  Serial.print("Temperature: ");
+  Serial.print(temperature);
+  Serial.println(" *C");
+  ThingSpeak.writeField(myChannelField, ChannelField1, temperature, myWriteAPIKey);
+  Serial.print("Humidity: ");
+  Serial.print(humidity);
+  Serial.println(" g.m-3");
+  ThingSpeak.writeField(myChannelField, ChannelField2, humidity, myWriteAPIKey);
+  delay(1000);
+}
+```
 
 # CIRCUIT DIAGRAM:
+![image](https://github.com/user-attachments/assets/18399935-aff1-4881-aa09-b03990b04c69)
+
 
 # OUTPUT:
+## THINGSPEAK
+![Screenshot 2024-10-26 145046](https://github.com/user-attachments/assets/64903752-652b-47e3-970b-703e60e1709a)
+
+
+## SERIAL MONITOR
+![image](https://github.com/user-attachments/assets/e46ec3af-6f92-4177-9897-81bb4ed2df9f)
+
 
 # RESULT:
 
