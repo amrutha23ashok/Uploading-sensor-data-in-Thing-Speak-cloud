@@ -1,5 +1,5 @@
-## NAME : Ratheesh Kumar B R
-## REG NO : 212223110040
+## NAME : amrutha
+## REG NO : 212222110004
 # Ex - 03 Uploading temperature sensor data in Thing Speak cloud
 
 # AIM:
@@ -143,5 +143,5 @@ void loop()
 
 # RESULT:
 
-Thus the temperature sensor values are updated in the Thing speak using ESP32 controller.
+Thus the temperature sensor values are updated in the Thing speak using ESP32 controller
 
